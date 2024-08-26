@@ -13,7 +13,7 @@ import jakarta.validation.constraints.Positive;
 public class Expense {
 	
 	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 	
 	@Enumerated(EnumType.STRING)
