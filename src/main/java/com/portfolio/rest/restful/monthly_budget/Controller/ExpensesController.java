@@ -1,6 +1,7 @@
 package com.portfolio.rest.restful.monthly_budget.Controller;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -8,6 +9,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.portfolio.rest.restful.monthly_budget.expenses.Expense;
@@ -33,6 +35,12 @@ public class ExpensesController {
 	@GetMapping("/expenses")
 	public List<Expense> expensesPage() {
 		return expensesRepository.findAll();
+	}
+	
+	@GetMapping("/expense/{id}")
+	public Expense showExpense(@PathVariable Integer id) {
+		Expense expense = expensesRepository.findById(id).get();
+		return expense;
 	}
 	
 	@PostMapping("/add-expense")

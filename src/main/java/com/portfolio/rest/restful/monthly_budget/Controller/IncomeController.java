@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.portfolio.rest.restful.monthly_budget.expenses.Expense;
 import com.portfolio.rest.restful.monthly_budget.incomes.Income;
 import com.portfolio.rest.restful.monthly_budget.repositories.IncomeRepository;
 import com.portfolio.rest.restful.monthly_budget.service.IncomeService;
@@ -30,6 +31,12 @@ public class IncomeController {
 	@GetMapping("/incomes")
 	public List<Income> incomesPage() {
 		return incomeRepository.findAll();
+	}
+	
+	@GetMapping("/income/{id}")
+	public Income showIncome(@PathVariable Integer id) {
+		Income income = incomeRepository.findById(id).get();
+		return income;
 	}
 	
 	@PostMapping("/add-income")
