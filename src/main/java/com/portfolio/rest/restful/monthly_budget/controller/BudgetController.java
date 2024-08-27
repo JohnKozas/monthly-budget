@@ -1,4 +1,4 @@
-package com.portfolio.rest.restful.monthly_budget.Controller;
+package com.portfolio.rest.restful.monthly_budget.controller;
 
 import java.util.ArrayList;
 import java.util.List;

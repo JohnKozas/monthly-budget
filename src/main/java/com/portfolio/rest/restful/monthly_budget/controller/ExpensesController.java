@@ -1,8 +1,10 @@
-package com.portfolio.rest.restful.monthly_budget.Controller;
+package com.portfolio.rest.restful.monthly_budget.controller;
 
+import java.net.URI;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -11,6 +13,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.portfolio.rest.restful.monthly_budget.expenses.Expense;
 import com.portfolio.rest.restful.monthly_budget.incomes.Income;
@@ -43,10 +46,16 @@ public class ExpensesController {
 		return expense;
 	}
 	
-	@PostMapping("/add-expense")
-	public Expense addExpense(@Valid @RequestBody Expense expense) {
-		expensesRepository.save(expense);
-		return expense;
+	@PostMapping("/expense")
+	public ResponseEntity<Object> addExpense(@Valid @RequestBody Expense expense) {
+		Expense savedExpense = expensesRepository.save(expense);
+		
+		URI location = ServletUriComponentsBuilder
+				.fromCurrentRequest()
+				.path("/{id}")
+				.buildAndExpand(savedExpense.getId())
+				.toUri();
+		return ResponseEntity.created(location).build();
 	}
 	
 	@DeleteMapping("/delete-expense/{id}")
