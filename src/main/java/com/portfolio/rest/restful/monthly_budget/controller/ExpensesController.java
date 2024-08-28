@@ -42,8 +42,12 @@ public class ExpensesController {
 	
 	@GetMapping("/expense/{id}")
 	public Expense showExpense(@PathVariable Integer id) {
-		Expense expense = expensesRepository.findById(id).get();
-		return expense;
+		Optional<Expense> expense = expensesRepository.findById(id);
+		
+		if(expense.isEmpty())
+			throw new ExpenseNotFoundException("id: "+id);
+		
+		return expense.get();
 	}
 	
 	@PostMapping("/expense")

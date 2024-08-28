@@ -6,7 +6,6 @@ import org.springframework.stereotype.Service;
 
 import com.portfolio.rest.restful.monthly_budget.incomes.Income;
 import com.portfolio.rest.restful.monthly_budget.repositories.IncomeRepository;
-import com.portfolio.rest.restful.monthly_budget.service.errors.ResourceNotFoundException;
 
 @Service
 public class IncomeService {
@@ -24,7 +23,6 @@ public class IncomeService {
 
 	public Income updateIncome(int id, Income updatedIncome) {
 		Income income = incomeRepository.findById(id).get();
-//	.orElseThrow(() -> new ResourceNotFoundException("Income id not found"));//This is for the errors
 		income.setAmount(updatedIncome.getAmount());
 		income.setCategory(updatedIncome.getCategory());
 		incomeRepository.save(income);
