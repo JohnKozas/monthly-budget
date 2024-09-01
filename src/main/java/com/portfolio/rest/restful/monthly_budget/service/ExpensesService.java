@@ -2,7 +2,7 @@ package com.portfolio.rest.restful.monthly_budget.service;
 
 import org.springframework.stereotype.Service;
 
-import com.portfolio.rest.restful.monthly_budget.expenses.Expense;
+import com.portfolio.rest.restful.monthly_budget.expense.Expense;
 import com.portfolio.rest.restful.monthly_budget.repositories.ExpensesRepository;
 
 @Service

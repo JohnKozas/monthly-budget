@@ -14,8 +14,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import com.portfolio.rest.restful.monthly_budget.expenses.Expense;
-import com.portfolio.rest.restful.monthly_budget.incomes.Income;
+import com.portfolio.rest.restful.monthly_budget.expense.Expense;
+import com.portfolio.rest.restful.monthly_budget.income.Income;
 import com.portfolio.rest.restful.monthly_budget.repositories.IncomeRepository;
 import com.portfolio.rest.restful.monthly_budget.service.IncomeService;
 

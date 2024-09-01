@@ -4,7 +4,7 @@ import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
-import com.portfolio.rest.restful.monthly_budget.incomes.Income;
+import com.portfolio.rest.restful.monthly_budget.income.Income;
 import com.portfolio.rest.restful.monthly_budget.repositories.IncomeRepository;
 
 @Service

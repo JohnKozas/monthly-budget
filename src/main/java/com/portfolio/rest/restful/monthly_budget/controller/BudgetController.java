@@ -8,8 +8,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.portfolio.rest.restful.monthly_budget.expenses.Expense;
-import com.portfolio.rest.restful.monthly_budget.incomes.Income;
+import com.portfolio.rest.restful.monthly_budget.budget.Budget;
+import com.portfolio.rest.restful.monthly_budget.expense.Expense;
+import com.portfolio.rest.restful.monthly_budget.income.Income;
 import com.portfolio.rest.restful.monthly_budget.repositories.IncomeRepository;
 import com.portfolio.rest.restful.monthly_budget.service.BudgetService;
 import com.portfolio.rest.restful.monthly_budget.repositories.ExpensesRepository;
@@ -26,9 +27,9 @@ public class BudgetController {
 	}
 	
 
-	@GetMapping("/incomes-expenses")
-	public List<String> incomeExpencestPage() {
-		return budgetService.getIncomesAndExpenses();
+	@GetMapping("/budget")
+	public Budget showGeneratedBudget() {
+		return budgetService.generateBudget();
 	}
 	
 	

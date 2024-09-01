@@ -5,7 +5,7 @@ import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
-import com.portfolio.rest.restful.monthly_budget.incomes.Income;
+import com.portfolio.rest.restful.monthly_budget.income.Income;
 
 public interface IncomeRepository extends JpaRepository<Income, Integer>{
 	

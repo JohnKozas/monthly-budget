@@ -1,5 +1,7 @@
-package com.portfolio.rest.restful.monthly_budget.expenses;
+package com.portfolio.rest.restful.monthly_budget.expense;
 
+
+import com.portfolio.rest.restful.monthly_budget.budget.Budget;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -7,6 +9,8 @@ import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.validation.constraints.Positive;
 
 @Entity(name = "EXPENSES")
@@ -21,6 +25,10 @@ public class Expense {
 	
 	@Positive //This belongs to jakarta.validation, means that only positive values are acceptable 
 	private int amount;
+	
+	@ManyToOne
+	@JoinColumn(name = "budget_id")
+	private Budget budget;
 	
 	public Expense() {}
 
