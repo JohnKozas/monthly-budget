@@ -55,6 +55,12 @@ public class BudgetService {
 		budget.setExpenses(expenses);
 		budget.setIncomes(incomes);
 		
+//		Here the budget that created is set with the incomes and expenses from which occurred
+		incomes.stream()
+		.forEach(income -> income.setBudget(budget));
+		expenses.stream()
+		.forEach(income -> income.setBudget(budget));
+		
 		budgetRepository.save(budget);
 		
 		return budget;

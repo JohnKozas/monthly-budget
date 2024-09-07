@@ -44,9 +44,10 @@ public class ExpensesController {
 	public Expense showExpense(@PathVariable Integer id) {
 		Optional<Expense> expense = expensesRepository.findById(id);
 		
-		if(expense.isEmpty())
+		if(expense.isEmpty()) {
 			throw new ExpenseNotFoundException("id: "+id);
-		
+		}
+			
 		return expense.get();
 	}
 	

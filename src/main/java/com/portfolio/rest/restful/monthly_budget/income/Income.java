@@ -1,8 +1,10 @@
 package com.portfolio.rest.restful.monthly_budget.income;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.portfolio.rest.restful.monthly_budget.budget.Budget;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -21,6 +23,7 @@ public class Income {
 	private int amount;
 	
 	@ManyToOne
+	@JsonIgnore
 	@JoinColumn(name = "budget_id")
 	private Budget budget;
 	
@@ -33,11 +36,11 @@ public class Income {
 		this.amount = amount;
 	}
 
-	public int getId() {
+	public Integer getId() {
 		return id;
 	}
 
-	public void setId(int id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 
@@ -55,6 +58,14 @@ public class Income {
 
 	public void setAmount(int amount) {
 		this.amount = amount;
+	}
+
+	public Budget getBudget() {
+		return budget;
+	}
+
+	public void setBudget(Budget budget) {
+		this.budget = budget;
 	}
 
 	@Override

@@ -11,6 +11,7 @@ import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
 import com.portfolio.rest.restful.monthly_budget.controller.ExpenseNotFoundException;
+import com.portfolio.rest.restful.monthly_budget.controller.IncomeNotFoundException;
 
 @ControllerAdvice
 public class CustomizedResponseEntityExceptionHandler extends ResponseEntityExceptionHandler{
@@ -25,13 +26,17 @@ public class CustomizedResponseEntityExceptionHandler extends ResponseEntityExce
 	}
 
 	@ExceptionHandler(ExpenseNotFoundException.class)
-	public final ResponseEntity<ErrorDetails> handleExpenseNotFoundException(Exception ex, WebRequest request) throws Exception {
-		ErrorDetails errorDetails = new ErrorDetails(LocalDateTime.now(), 
-				ex.getMessage(), request.getDescription(false));
+    public ResponseEntity<ErrorDetails> handleExpenseNotFoundException(ExpenseNotFoundException ex) {
+		ErrorDetails errorResponse = new ErrorDetails(LocalDateTime.now(), ex.getMessage(), HttpStatus.NOT_FOUND.toString());
+        return new ResponseEntity<>(errorResponse, HttpStatus.NOT_FOUND);
+    }
 		
-		return new ResponseEntity<ErrorDetails>(errorDetails, HttpStatus.NOT_FOUND);
-		
-	}
+	
+	@ExceptionHandler(IncomeNotFoundException.class)
+    public ResponseEntity<ErrorDetails> handleIncomeNotFoundException(IncomeNotFoundException ex) {
+		ErrorDetails errorResponse = new ErrorDetails(LocalDateTime.now(), ex.getMessage(), HttpStatus.NOT_FOUND.toString());
+        return new ResponseEntity<>(errorResponse, HttpStatus.NOT_FOUND);
+    }
 
 	
 }

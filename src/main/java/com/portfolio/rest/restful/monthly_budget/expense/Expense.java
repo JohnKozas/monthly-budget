@@ -1,6 +1,7 @@
 package com.portfolio.rest.restful.monthly_budget.expense;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.portfolio.rest.restful.monthly_budget.budget.Budget;
 
 import jakarta.persistence.Entity;
@@ -27,6 +28,7 @@ public class Expense {
 	private int amount;
 	
 	@ManyToOne
+	@JsonIgnore
 	@JoinColumn(name = "budget_id")
 	private Budget budget;
 	
@@ -61,6 +63,14 @@ public class Expense {
 
 	public void setAmount(int amount) {
 		this.amount = amount;
+	}
+
+	public Budget getBudget() {
+		return budget;
+	}
+
+	public void setBudget(Budget budget) {
+		this.budget = budget;
 	}
 
 	@Override

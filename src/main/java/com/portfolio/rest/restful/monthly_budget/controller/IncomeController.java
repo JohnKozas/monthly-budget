@@ -38,8 +38,12 @@ public class IncomeController {
 	
 	@GetMapping("/income/{id}")
 	public Income showIncome(@PathVariable Integer id) {
-		Income income = incomeRepository.findById(id).get();
-		return income;
+		Optional<Income> income = incomeRepository.findById(id);
+		
+		if(income.isEmpty()) {
+			throw new IncomeNotFoundException("id "+ id);
+		}
+		return income.get();
 	}
 	
 	@PostMapping("/income")
