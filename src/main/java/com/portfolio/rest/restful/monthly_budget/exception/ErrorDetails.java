@@ -1,6 +1,5 @@
 package com.portfolio.rest.restful.monthly_budget.exception;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 public class ErrorDetails {

@@ -11,12 +11,11 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import com.portfolio.rest.restful.monthly_budget.exception.ExpenseNotFoundException;
 import com.portfolio.rest.restful.monthly_budget.expense.Expense;
-import com.portfolio.rest.restful.monthly_budget.income.Income;
 import com.portfolio.rest.restful.monthly_budget.repositories.ExpensesRepository;
 import com.portfolio.rest.restful.monthly_budget.service.ExpensesService;
 

@@ -1,6 +1,5 @@
 package com.portfolio.rest.restful.monthly_budget.exception;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 import org.springframework.http.HttpStatus;
@@ -10,8 +9,6 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
-import com.portfolio.rest.restful.monthly_budget.controller.ExpenseNotFoundException;
-import com.portfolio.rest.restful.monthly_budget.controller.IncomeNotFoundException;
 
 @ControllerAdvice
 public class CustomizedResponseEntityExceptionHandler extends ResponseEntityExceptionHandler{
