@@ -4,6 +4,7 @@ import java.net.URI;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import com.portfolio.rest.restful.monthly_budget.dtos.ExpenseDTO;
 import com.portfolio.rest.restful.monthly_budget.exception.ExpenseNotFoundException;
 import com.portfolio.rest.restful.monthly_budget.expense.Expense;
 import com.portfolio.rest.restful.monthly_budget.repositories.ExpensesRepository;
@@ -23,36 +25,27 @@ import jakarta.validation.Valid;
 
 @RestController
 public class ExpensesController {
-
-	private ExpensesRepository expensesRepository;
 	
 	private ExpensesService expensesService;
 	
-	public ExpensesController(ExpensesRepository expensesRepository, ExpensesService expensesService) {
+	public ExpensesController(ExpensesService expensesService) {
 		super();
-		this.expensesRepository = expensesRepository;
 		this.expensesService = expensesService;
 	}
 	
 	@GetMapping("/expenses")
-	public List<Expense> expensesPage() {
-		return expensesRepository.findAll();
+	public ResponseEntity<List<ExpenseDTO>> expensesPage() {
+		return new ResponseEntity<>(expensesService.findAll(), HttpStatus.OK);
 	}
 	
 	@GetMapping("/expense/{id}")
-	public Expense showExpense(@PathVariable Integer id) {
-		Optional<Expense> expense = expensesRepository.findById(id);
-		
-		if(expense.isEmpty()) {
-			throw new ExpenseNotFoundException("id: "+id);
-		}
-			
-		return expense.get();
+	public ResponseEntity<ExpenseDTO> showExpense(@PathVariable Integer id) {
+		return new ResponseEntity<>(expensesService.findById(id), HttpStatus.OK);
 	}
 	
 	@PostMapping("/expense")
-	public ResponseEntity<Object> addExpense(@Valid @RequestBody Expense expense) {
-		Expense savedExpense = expensesRepository.save(expense);
+	public ResponseEntity<Object> addExpense(@Valid @RequestBody ExpenseDTO expenseDTO) {
+		Expense savedExpense = expensesService.saveExpense(expenseDTO);
 		
 		URI location = ServletUriComponentsBuilder
 				.fromCurrentRequest()
@@ -63,19 +56,21 @@ public class ExpensesController {
 	}
 	
 	@DeleteMapping("/delete-expense/{id}")
-	public void deleteIncome(@PathVariable int id) {
-		expensesRepository.deleteById(id);
+	public ResponseEntity<Object> deleteExpense(@PathVariable int id) {
+		expensesService.deleteById(id);
+		return ResponseEntity.noContent().build();
 	}
 	
 	@PutMapping("update-expense/{id}")
-	public Expense putExpense(@RequestBody Expense expense, @PathVariable int id) {
-		Expense updateExpense = expensesService.updateExpense(id, expense);
-		return updateExpense;
+	public ResponseEntity<ExpenseDTO> putExpense(@RequestBody ExpenseDTO expenseDTO, @PathVariable int id) {
+		ExpenseDTO updateExpense = expensesService.updateExpense(id, expenseDTO);
+		return new ResponseEntity<>(updateExpense, HttpStatus.OK);
 	}
 	
 	@GetMapping("/sum-expenses")
-	public Integer expensesSum() {
-		return expensesService.getSumOfExpenses();
+	public ResponseEntity<Integer> expensesSum() {
+		return new ResponseEntity<>(expensesService.getSumOfExpenses(), HttpStatus.OK);
+
 	}
 	
 }

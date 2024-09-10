@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 public class IncomeNotFoundException extends RuntimeException {
 
 	public IncomeNotFoundException(String message) {
-		super(message + " Does not excist");
+		super(message);
 	}
 	
 }

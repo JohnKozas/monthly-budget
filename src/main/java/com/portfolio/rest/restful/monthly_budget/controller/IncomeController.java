@@ -4,6 +4,7 @@ import java.net.URI;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import com.portfolio.rest.restful.monthly_budget.dtos.IncomeDTO;
 import com.portfolio.rest.restful.monthly_budget.exception.IncomeNotFoundException;
 import com.portfolio.rest.restful.monthly_budget.expense.Expense;
 import com.portfolio.rest.restful.monthly_budget.income.Income;
@@ -23,34 +25,27 @@ import com.portfolio.rest.restful.monthly_budget.service.IncomeService;
 @RestController
 public class IncomeController {
 	
-	private IncomeRepository incomeRepository;
 	private IncomeService incomeService;
 
-	public IncomeController(IncomeRepository incomeRepository, IncomeService incomeService) {
+	public IncomeController(IncomeService incomeService) {
 		super();
-		this.incomeRepository = incomeRepository;
 		this.incomeService = incomeService;
 	}
 	
 	@GetMapping("/incomes")
-	public List<Income> incomesPage() {
-		return incomeRepository.findAll();
+	public ResponseEntity<List<IncomeDTO>> incomesPage() {
+		List<IncomeDTO> incomes = incomeService.showAllIncomesDTO();
+		return new ResponseEntity<List<IncomeDTO>>(incomes, HttpStatus.OK);
 	}
 	
 	@GetMapping("/income/{id}")
-	public Income showIncome(@PathVariable Integer id) {
-		Optional<Income> income = incomeRepository.findById(id);
-		
-		if(income.isEmpty()) {
-			throw new IncomeNotFoundException("id "+ id);
-		}
-		return income.get();
+	public ResponseEntity<IncomeDTO> getIncomeById(@PathVariable int id) {
+	    return new ResponseEntity<>(incomeService.getIncomeById(id), HttpStatus.OK);
 	}
 	
 	@PostMapping("/income")
-	public ResponseEntity<Object> addIncome(@RequestBody Income income) {
-		Income savedIncome = incomeRepository.save(income);
-		
+	public ResponseEntity<Object> saveIncome(@RequestBody IncomeDTO incomeDTO) {
+		Income savedIncome = incomeService.saveIncome(incomeDTO);
 		URI location = ServletUriComponentsBuilder
 				.fromCurrentRequest()
 				.path("/{id}")
@@ -60,19 +55,19 @@ public class IncomeController {
 	}
 	
 	@DeleteMapping("/delete-income/{id}")
-	public void deleteIncome(@PathVariable int id) {
-		incomeRepository.deleteById(id);
+	public ResponseEntity<Object> deleteIncome(@PathVariable int id) {
+		incomeService.deleteIncome(id);
+		return ResponseEntity.noContent().build();
 	}
 	
 	@PutMapping("update-income/{id}")
-	public Income putIncome(@RequestBody Income income, @PathVariable int id) {
-		Income updateIncome = incomeService.updateIncome(id, income);
-		return updateIncome;
+	public ResponseEntity<IncomeDTO> putIncome(@RequestBody IncomeDTO incomeDTO, @PathVariable int id) {
+		IncomeDTO updateIncome = incomeService.updateIncome(id, incomeDTO);
+		return new ResponseEntity<>(updateIncome, HttpStatus.OK);
 	}
 	
 	@GetMapping("/sum-incomes")
-	public Integer incomesSum() {
-		return incomeService.getSumOfIncomes();
+	public ResponseEntity<Integer> incomesSum() {
+		return new ResponseEntity<>(incomeService.getSumOfIncomes(), HttpStatus.OK);
 	}
-
 }
