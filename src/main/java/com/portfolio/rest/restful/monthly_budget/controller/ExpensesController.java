@@ -35,7 +35,7 @@ public class ExpensesController {
 	
 	@GetMapping("/expenses")
 	public ResponseEntity<List<ExpenseDTO>> expensesPage() {
-		return new ResponseEntity<>(expensesService.findAll(), HttpStatus.OK);
+		return new ResponseEntity<>(expensesService.findAllDTO(), HttpStatus.OK);
 	}
 	
 	@GetMapping("/expense/{id}")
@@ -67,10 +67,10 @@ public class ExpensesController {
 		return new ResponseEntity<>(updateExpense, HttpStatus.OK);
 	}
 	
-	@GetMapping("/sum-expenses")
-	public ResponseEntity<Integer> expensesSum() {
-		return new ResponseEntity<>(expensesService.getSumOfExpenses(), HttpStatus.OK);
-
-	}
+//	@GetMapping("/sum-expenses")
+//	public ResponseEntity<Integer> expensesSum() {
+//		return new ResponseEntity<>(expensesService.getSumOfExpenses(), HttpStatus.OK);
+//
+//	}
 	
 }

@@ -57,9 +57,13 @@ public class IncomeService {
     }
     
     public List<IncomeDTO> showAllIncomesDTO() {
-    	List<Income> incomes = incomeRepository.findAll();
-    	return incomes.stream()
+    	return incomeRepository.findAll().stream()
                 .map(this::convertToDTO) // Map each Income entity to a DTO
+                .collect(Collectors.toList());
+    }
+    
+    public List<Income> showAllIncomes() {
+    	return incomeRepository.findAll().stream()
                 .collect(Collectors.toList());
     }
     
@@ -68,6 +72,10 @@ public class IncomeService {
 	        throw new IncomeNotFoundException("Income not found");
 	    }
 		incomeRepository.deleteById(id);
+	}
+
+	public void deleteAll() {
+		incomeRepository.deleteAll();
 	}
     
 }

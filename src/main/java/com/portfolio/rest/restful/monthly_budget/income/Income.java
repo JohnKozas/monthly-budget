@@ -3,6 +3,7 @@ package com.portfolio.rest.restful.monthly_budget.income;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.portfolio.rest.restful.monthly_budget.budget.Budget;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
@@ -10,16 +11,20 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Table;
 
-@Entity(name = "INCOMES")
+@Entity
+@Table(name = "incomes")
 public class Income {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 	
+	@Column(nullable = false)
 	private String category;
 	
+	@Column(nullable = false)
 	private int amount;
 	
 	@ManyToOne

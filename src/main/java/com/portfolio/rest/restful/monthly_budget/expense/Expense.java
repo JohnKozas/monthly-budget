@@ -4,6 +4,7 @@ package com.portfolio.rest.restful.monthly_budget.expense;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.portfolio.rest.restful.monthly_budget.budget.Budget;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -12,9 +13,11 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Table;
 import jakarta.validation.constraints.Positive;
 
-@Entity(name = "EXPENSES")
+@Entity
+@Table(name = "expenses")
 public class Expense {
 	
 	@Id
@@ -22,9 +25,11 @@ public class Expense {
 	private Integer id;
 	
 	@Enumerated(EnumType.STRING)
+	@Column(nullable = true)
 	private Category category;
 	
 	@Positive //This belongs to jakarta.validation, means that only positive values are acceptable 
+	@Column(nullable = true)
 	private int amount;
 	
 	@ManyToOne

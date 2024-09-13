@@ -1,12 +1,19 @@
 package com.portfolio.rest.restful.monthly_budget.service;
 
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
+import org.modelmapper.ModelMapper;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 
 import com.portfolio.rest.restful.monthly_budget.budget.Budget;
+import com.portfolio.rest.restful.monthly_budget.dtos.BudgetDTO;
 import com.portfolio.rest.restful.monthly_budget.expense.Expense;
 import com.portfolio.rest.restful.monthly_budget.income.Income;
 import com.portfolio.rest.restful.monthly_budget.repositories.BudgetRepository;
@@ -20,34 +27,33 @@ public class BudgetService {
 	
 	private  IncomeService incomeService;
 	
-	private IncomeRepository incomeRepository;
-	
-	private ExpensesRepository expenseRepository;
-
 	private BudgetRepository budgetRepository;
+	
+	private ModelMapper modelMapper;
+	
+	private JdbcTemplate jdbcTemplate;
 
 	
 	public BudgetService(ExpensesService expensesService, IncomeService incomeService,
-			IncomeRepository incomeRepository, ExpensesRepository expenseRepository,
-			BudgetRepository budgetRepository) {
+			BudgetRepository budgetRepository, ModelMapper modelMapper, JdbcTemplate jdbcTemplate) {
 		super();
 		this.expensesService = expensesService;
 		this.incomeService = incomeService;
-		this.incomeRepository = incomeRepository;
-		this.expenseRepository = expenseRepository;
 		this.budgetRepository = budgetRepository;
+		this.modelMapper = modelMapper;
+		this.jdbcTemplate = jdbcTemplate;
 	}
 
-	public Budget generateBudget() {
+	public BudgetDTO generateBudget() {
 		
-		List<Income> incomes = incomeRepository.findAll(); // Retrieve all incomes
-        List<Expense> expenses = expenseRepository.findAll(); // Retrieve all expenses
+		List<Income> incomes = incomeService.showAllIncomes(); // Retrieve all incomes
+        List<Expense> expenses = expensesService.findAll(); // Retrieve all expenses
 		
-		int sumExpenses = expensesService.getSumOfExpenses();
+		Integer sumExpenses = expensesService.getSumOfExpenses();
 		
-		int sumIncomes = incomeService.getSumOfIncomes();
+		Integer sumIncomes = incomeService.getSumOfIncomes();
 		
-		int sumBudget = sumIncomes - sumExpenses;
+		Integer sumBudget = sumIncomes - sumExpenses;
 		
 		Budget budget = new Budget();
 		budget.setBudget(sumBudget);
@@ -59,31 +65,36 @@ public class BudgetService {
 		incomes.stream()
 		.forEach(income -> income.setBudget(budget));
 		expenses.stream()
-		.forEach(income -> income.setBudget(budget));
+		.forEach(expense -> expense.setBudget(budget));
 		
 		budgetRepository.save(budget);
 		
-		return budget;
+		return modelMapper.map(budget, BudgetDTO.class);
 	}
 	
-//	public List<String> getIncomesAndExpenses() {
-//	
-//	List<Expense> expenses = expensesRepository.findAll();
-//	
-//	List<Income> incomes = incomeRepository.findAll();
-//	
-//	
-//	int size = expenses.size();
-//	
-//	List<String> combinedList = new ArrayList<>();
-//	
-//	for (int i = 0; i < size; i++) {
-//		String combined = expenses.get(i).toString() + " , " + incomes.get(i).toString();
-//        combinedList.add(combined);
-//	}
-//	
-//	return combinedList;
-//}
+	public String deleteAll() {
+		
+		expensesService.deleteAll();
+		incomeService.deleteAll();
+		budgetRepository.deleteAll();
+		
+		return "All entities are deleted";
+	}
+	
+	public void addIncomesAndExpensesFromFileForTesting() {
+		// Read data.sql file from resources
+        String dataSql = new BufferedReader(new InputStreamReader(
+            getClass().getClassLoader().getResourceAsStream("data.sql"), StandardCharsets.UTF_8))
+            .lines()
+            .collect(Collectors.joining("\n"));
 
+        // Split SQL by semicolon and execute each statement
+        String[] sqlStatements = dataSql.split(";");
+        for (String statement : sqlStatements) {
+            if (!statement.trim().isEmpty()) {
+                jdbcTemplate.execute(statement.trim());
+            }
+        }
+    }
 
 }

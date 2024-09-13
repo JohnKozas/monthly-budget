@@ -56,8 +56,13 @@ public class ExpensesService {
 		return convertToDTO(expense); // Return the updated ExpenseDTO
 	}
 
-	public List<ExpenseDTO> findAll() {
+	public List<ExpenseDTO> findAllDTO() {
 		return expensesRepository.findAll().stream().map(this::convertToDTO)
+	            .collect(Collectors.toList());
+	}
+	
+	public List<Expense> findAll() {
+		return expensesRepository.findAll().stream()
 	            .collect(Collectors.toList());
 	}
 
@@ -76,6 +81,10 @@ public class ExpensesService {
 		Expense expense = expensesRepository.findById(id)
                 .orElseThrow(() -> new ExpenseNotFoundException("Expense "));
 		expensesRepository.delete(expense);
+	}
+
+	public void deleteAll() {
+		expensesRepository.deleteAll();
 	}
 
 }
