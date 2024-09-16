@@ -22,7 +22,7 @@ public class Budget {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int id;
+	private Integer id;
 	
 	@Column(nullable = false)
 	private int budget;

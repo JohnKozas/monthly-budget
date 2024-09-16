@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 
 import com.portfolio.rest.restful.monthly_budget.budget.Budget;
 import com.portfolio.rest.restful.monthly_budget.dtos.BudgetDTO;
+import com.portfolio.rest.restful.monthly_budget.exception.BudgetNotFoundException;
 import com.portfolio.rest.restful.monthly_budget.expense.Expense;
 import com.portfolio.rest.restful.monthly_budget.income.Income;
 import com.portfolio.rest.restful.monthly_budget.repositories.BudgetRepository;
@@ -97,4 +98,13 @@ public class BudgetService {
         }
     }
 
+	public List<Budget> showBudget() {
+		if (budgetRepository.findAll().isEmpty()) {
+			throw new BudgetNotFoundException("There are no budgets");
+		} else {
+			List<Budget> budgets = budgetRepository.findAll().stream().toList();
+			return budgets;
+		}
+	}
+//.forEach(budget -> modelMap.map(budget, budgetDTO))
 }

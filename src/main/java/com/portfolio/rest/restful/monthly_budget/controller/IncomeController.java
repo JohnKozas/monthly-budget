@@ -2,7 +2,6 @@ package com.portfolio.rest.restful.monthly_budget.controller;
 
 import java.net.URI;
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,10 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.portfolio.rest.restful.monthly_budget.dtos.IncomeDTO;
-import com.portfolio.rest.restful.monthly_budget.exception.IncomeNotFoundException;
-import com.portfolio.rest.restful.monthly_budget.expense.Expense;
 import com.portfolio.rest.restful.monthly_budget.income.Income;
-import com.portfolio.rest.restful.monthly_budget.repositories.IncomeRepository;
 import com.portfolio.rest.restful.monthly_budget.service.IncomeService;
 
 @RestController
