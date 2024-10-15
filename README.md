@@ -27,15 +27,19 @@ POST http://localhost:5000/addTestData
 
 To manually add incomes or expenses, send a POST request with the following JSON format:
 Income:
+
 {
   "category": "Job-payment",
   "amount": 750
 }
+
 Expense:
+
 {
   "category": "BILLS",
   "amount": 280
 }
+
 Note:
 Income categories can be any string.
 Expense categories must be one of the following: BILLS, RENT, MARKET (as defined in the Enum class).
